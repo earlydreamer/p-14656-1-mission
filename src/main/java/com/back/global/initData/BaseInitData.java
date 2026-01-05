@@ -49,7 +49,7 @@ public class BaseInitData {
     private void work3(String id) {
         log.debug("Post 단건 조회");
         try {
-            Post post = postService.findById(id).orElseThrow(() -> new com.back.exception.PostNotFoundException(id+" not found"));
+            Post post = postService.findById(id);
             log.debug("조회된 Post: {}", post);
         } catch (com.back.exception.PostNotFoundException ex) {
             log.warn("조회 실패: {}", ex.getMessage());
