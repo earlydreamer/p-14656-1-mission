@@ -22,6 +22,7 @@ public class BaseInitData {
             work1();
             work2();
             work3("FB4FjZsBX2e7fBMydzwH");// 기생성된 post1의 id
+            work3("1");// 잘못된 id
         };
     }
 
@@ -48,7 +49,7 @@ public class BaseInitData {
     private void work3(String id) {
         log.debug("Post 단건 조회");
         try {
-            Post post = postService.findById(id).orElseThrow(() -> new com.back.exception.PostNotFoundException(id));
+            Post post = postService.findById(id).orElseThrow(() -> new com.back.exception.PostNotFoundException(id+" not found"));
             log.debug("조회된 Post: {}", post);
         } catch (com.back.exception.PostNotFoundException ex) {
             log.warn("조회 실패: {}", ex.getMessage());

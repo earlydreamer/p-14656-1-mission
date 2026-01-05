@@ -1,8 +1,8 @@
 package com.back.exception;
 
-public class PostNotFoundException extends RuntimeException {
-    public PostNotFoundException(String id) {
-        super("Post not found with id: " + id);
+public class PostNotFoundException extends DomainException {
+    public PostNotFoundException(String message) {
+        super("404", message);
     }
 }
 
