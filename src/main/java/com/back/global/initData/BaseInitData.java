@@ -16,17 +16,18 @@ public class BaseInitData {
     private final PostService postService;
 
     @Bean
-    public ApplicationRunner baseInitDataRunner (){
-        return args->{
+    public ApplicationRunner baseInitDataRunner() {
+        return args -> {
             log.debug("ApplicationRunner 빈은 스프링에 등록되면 자동으로 실행됩니다");
             work1();
             work2();
+            work3("FB4FjZsBX2e7fBMydzwH");// 기생성된 post1의 id
         };
     }
 
-    private void work1(){
-        log.debug("Post entity 개수: {}",postService.count());
-        if (postService.count() == 0){
+    private void work1() {
+        log.debug("Post entity 개수: {}", postService.count());
+        if (postService.count() == 0) {
             for (int i = 1; i <= 10; i++) {
                 String title = "Sample Post Title " + i;
                 String content = "This is the content of sample post number " + i + ".";
@@ -36,11 +37,21 @@ public class BaseInitData {
             }
         }
     }
-    private void work2(){
+
+    private void work2() {
         log.debug("기존 Post 전체 조회");
         for (Post post : postService.findAll()) {
             log.debug("Existing Post: {}", post);
         }
     }
 
+    private void work3(String id) {
+        log.debug("Post 단건 조회");
+        try {
+            Post post = postService.findById(id).orElseThrow(() -> new com.back.exception.PostNotFoundException(id));
+            log.debug("조회된 Post: {}", post);
+        } catch (com.back.exception.PostNotFoundException ex) {
+            log.warn("조회 실패: {}", ex.getMessage());
+        }
+    }
 }
