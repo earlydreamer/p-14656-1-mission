@@ -1,5 +1,6 @@
 package com.back.service;
 
+import com.back.document.Post;
 import com.back.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,4 +12,15 @@ public class PostService {
     public long count() {
         return postRepository.count();
     }
+
+    public Post create(String title, String content, String author) {
+        Post post = new Post(title, content, author);
+        return postRepository.save(post);
+        //⚠️ JPA와의 차이점 - 영속성 컨텍스트 없음
+        //JPA: save() 후 영속성 컨텍스트에서 관리되며, 같은 트랜잭션 내에서 변경 감지(Dirty Checking)로 자동 저장
+        //Elasticsearch: 영속성 컨텍스트가 없으므로 변경 시마다 save() 호출 필수
+    }
+
+
+
 }
