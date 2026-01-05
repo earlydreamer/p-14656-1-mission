@@ -4,6 +4,8 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+  elasticsearch:
+    uris: localhost:9200
   jackson:
     serialization:
       fail-on-empty-beans: false
