@@ -26,6 +26,7 @@ public class BaseInitData {
             work3("FB4FjZsBX2e7fBMydzwH");// 기생성된 post1의 id
             work3("1");// 잘못된 id
             work4();
+            work5();
         };
     }
 
@@ -67,6 +68,15 @@ public class BaseInitData {
             Post updatedPost = postService.update(post.getId(), newTitle, newContent);
             log.debug("Updated Post: {}", updatedPost);
         }
+    }
+
+    private void work5(){
+        log.debug("Post 삭제");
+        for (Post post : postService.findAll()) {
+            postService.delete(post.getId());
+            log.debug("Deleted Post: {}", post.getId());
+        }
+        log.debug("삭제 후 Post 개수: {}", postService.count());
     }
 
 }
