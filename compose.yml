@@ -1,6 +1,6 @@
 services:
   elasticsearch:
-    build: .
+    build: src/main/java
     image: elasticsearch:nori
     ports:
       - "9200:9200"
