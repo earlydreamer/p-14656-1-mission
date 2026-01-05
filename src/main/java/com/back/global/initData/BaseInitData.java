@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.back.document.Post;
 
+import java.time.LocalDateTime;
+
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class BaseInitData {
             work2();
             work3("FB4FjZsBX2e7fBMydzwH");// 기생성된 post1의 id
             work3("1");// 잘못된 id
+            work4();
         };
     }
 
@@ -55,4 +58,15 @@ public class BaseInitData {
             log.warn("조회 실패: {}", ex.getMessage());
         }
     }
+
+    private void work4(){
+        log.debug("Post 단건 수정");
+        for (Post post : postService.findAll()) {
+            String newTitle = post.getTitle() + " [Updated]";
+            String newContent = post.getContent() + " This content has been updated on "+ LocalDateTime.now();
+            Post updatedPost = postService.update(post.getId(), newTitle, newContent);
+            log.debug("Updated Post: {}", updatedPost);
+        }
+    }
+
 }
