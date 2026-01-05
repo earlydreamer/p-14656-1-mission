@@ -5,6 +5,8 @@ import com.back.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -21,6 +23,9 @@ public class PostService {
         //Elasticsearch: 영속성 컨텍스트가 없으므로 변경 시마다 save() 호출 필수
     }
 
+    public List<Post> findAll() {
+        return postRepository.findAll();
+    }
 
 
 }
