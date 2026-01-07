@@ -42,7 +42,8 @@ public class PostService {
         if (content != null){
             post.setContent(content);
         }
-        post.setLastModifiedAt(java.time.OffsetDateTime.now());
+        //auditing이 처리하므로 이 구문은 이제 없어도 된다.
+        //post.setLastModifiedAt(java.time.OffsetDateTime.now());
         return postRepository.save(post);
     }
 
