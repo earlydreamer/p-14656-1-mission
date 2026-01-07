@@ -1,6 +1,8 @@
 package com.back.document;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
@@ -22,9 +24,12 @@ import java.time.OffsetDateTime;
  */
 @Document(indexName = "posts")
 @Data //lombok을 이용한 toString 간소화
-public class Post implements Persistable {
-    @Id
-    private String id;
+@EqualsAndHashCode(callSuper = true)// 부모 클래스 필드 포함
+@ToString(callSuper = true)// 부모 클래스 필드 포함
+public class Post extends BaseDocument<String> {
+    //id를 부모에서 정의하므로 삭제
+    //@Id
+    //private String id; 
     @Field(type = FieldType.Text)
     private String title;
     @Field(type = FieldType.Text)
@@ -32,31 +37,11 @@ public class Post implements Persistable {
     @Field(type = FieldType.Keyword)
     private String author;
 
-    @Field(
-            type = FieldType.Date,
-            format = DateFormat.date_time
-    )
-    private OffsetDateTime createdAt;
-
-    @Field(
-            type = FieldType.Date,
-            format = DateFormat.date_time
-    )
-    private OffsetDateTime lastModifiedAt;
 
     public Post(String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.createdAt = OffsetDateTime.now();
-        this.lastModifiedAt = OffsetDateTime.now();
     }
 
-    @Override
-    public boolean isNew() {
-        // id가 null이거나 createdAt과 lastModifiedAt 모두 null인 경우 새로 생성된 것으로 간주(true 반환)
-        // JPA: 영속성 컨텍스트가 엔티티의 상태(transient, managed, detached)를 관리
-        // Elasticsearch: 영속성 컨테스트가 없으므로 isNew() 메서드로 새 문서인지 판단
-        return id == null || (createdAt == null && lastModifiedAt == null);
-    }
 }
